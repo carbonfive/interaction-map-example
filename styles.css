@@ -1,0 +1,11 @@
+body {
+  background-color: gray;
+  padding: 100px 0;
+}
+
+#canvas {
+  width: 800px;
+  height: 600px;
+  margin: 0 auto;
+  background-color: white;
+}
