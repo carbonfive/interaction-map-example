@@ -9,6 +9,7 @@ body {
   margin: 0 auto;
   background-color: white;
   position: relative;
+  overflow: hidden;
 }
 
 #canvas .shape {
@@ -20,4 +21,23 @@ body {
 #canvas .shape.drawing {
   background-color: lightblue;
   border: dashed cornflowerblue 1px;
+}
+
+.signal-draw #canvas,
+.start-draw #canvas,
+.draw #canvas,
+.end-draw #canvas {
+  cursor: crosshair;
+}
+
+.signal-move #canvas,
+.end-move #canvas {
+  cursor: -webkit-grab;
+  cursor: grab;
+}
+
+.move #canvas,
+.start-move #canvas {
+  cursor: -webkit-grabbing;
+  cursor: grabbing;
 }
