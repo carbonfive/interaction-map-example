@@ -8,4 +8,16 @@ body {
   height: 600px;
   margin: 0 auto;
   background-color: white;
+  position: relative;
+}
+
+#canvas .shape {
+  position: absolute;
+  background-color: cornflowerblue;
+  border: solid midnightblue 1px;
+}
+
+#canvas .shape.drawing {
+  background-color: lightblue;
+  border: dashed cornflowerblue 1px;
 }

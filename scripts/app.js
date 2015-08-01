@@ -1,4 +1,5 @@
 var rectangleDelegator = new InteractionDelegator("inactive");
+rectangleDelegator.debug(true);
 
 for(var i = 0; i < modes.length; i++) {
   var mode = modes[i];
@@ -7,7 +8,7 @@ for(var i = 0; i < modes.length; i++) {
 
 window.addEventListener('load', function() {
   var canvas = document.getElementById('canvas');
-  var actor = new HTMLRectangleActor(canvas);
+  var actor = new HTMLRectangleController(canvas);
 
   canvas.addEventListener("mousemove", function(event) {
     rectangleDelegator.delegate(event, actor);

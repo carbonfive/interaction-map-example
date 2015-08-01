@@ -1,4 +1,4 @@
-var getSignalMode = function (actor, event) {
+var getSignalMode = function (controller, event) {
   return "signal-draw";
 };
 
@@ -19,8 +19,8 @@ var modes = [
   {
     name: "start-draw",
     handlers: {
-      mousedown: function(event, actor) {
-        actor.startDrawing({x: event.clientX, y: event.clientY});
+      mousedown: function(event, controller) {
+        controller.startDrawing({x: event.clientX, y: event.clientY});
       }
     },
     transitions: {
@@ -31,8 +31,8 @@ var modes = [
   {
     name: "draw",
     handlers: {
-      mousemove: function(event, actor) {
-        actor.updateDrawing({x: event.clientX, y: event.clientY});
+      mousemove: function(event, controller) {
+        controller.updateDrawing({x: event.clientX, y: event.clientY});
       }
     },
     transitions: {
@@ -44,7 +44,7 @@ var modes = [
   {
     name: "end-draw",
     handlers: {
-      mouseup: function(event, actor) { actor.endDrawing({x: event.clientX, y: event.clientY}); }
+      mouseup: function(event, controller) { controller.endDrawing({x: event.clientX, y: event.clientY}); }
     },
     transitions: {
       mousemove: getSignalMode

@@ -1,6 +1,7 @@
 var InteractionDelegator = function(defaultMode) {
   var interactionModes = {};
   var current = defaultMode;
+  var observers = {};
 
   var currentMode = function() {
     return interactionModes[current];
@@ -29,6 +30,14 @@ var InteractionDelegator = function(defaultMode) {
       interactionModes[modeName] = {handlers: {}, transitions: {}};
     }
     return interactionModes[modeName];
+  };
+
+  var notifyObservers = function(modeName) {
+    for(var observerName in observers) {
+      if(observers.hasOwnProperty(observerName)) {
+        observers[observerName](modeName);
+      }
+    }
   };
 
   return {
@@ -60,8 +69,10 @@ var InteractionDelegator = function(defaultMode) {
       handle(eventName, event, actor);
     },
     enable: function(mode) {
+      if(mode === current) { return; }
       if(this.isDefined(mode)) {
         current = mode;
+        notifyObservers(mode);
       } else {
         throw new Error('InteractionMap: Attempted to enable undefined mode "'+mode+'".');
       }
@@ -71,6 +82,21 @@ var InteractionDelegator = function(defaultMode) {
     },
     isDefined: function(mode) {
       return !!interactionModes[mode];
+    },
+    addObserver: function(name, fn) {
+      observers[name] = fn;
+    },
+    removeObserver: function(name) {
+      delete observers[name];
+    },
+    debug: function(enabled) {
+      if(enabled) {
+        this.addObserver('debug', function(modeName) {
+          console.log('Enabled mode "' + modeName +'"');
+        });
+      } else {
+        this.removeObserver('debug');
+      }
     }
   }
 };
