@@ -51,7 +51,6 @@ var CanvasController = function(canvas) {
       activeAction = null;
     },
     startMove: function(point) {
-      console.log('point', point);
       activeAction = new MoveAction(point, shapes);
     },
     move: function(point) {

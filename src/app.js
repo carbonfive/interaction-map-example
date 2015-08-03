@@ -1,26 +1,26 @@
-var rectangleDelegator = new InteractionMap("inactive");
-rectangleDelegator.debug(true);
+var interactionMap = new InteractionMap("inactive");
+interactionMap.debug(true);
 
-rectangleDelegator.registerAll(modes);
-rectangleDelegator.enable('inactive');
+interactionMap.registerAll(modes);
+interactionMap.enable('inactive');
 
 var setBodyClass = function(modeName) {
   document.body.className = modeName;
 };
 
-rectangleDelegator.addObserver('bodyClassName', setBodyClass);
+interactionMap.addObserver('bodyClassName', setBodyClass);
 
 window.addEventListener('load', function() {
   var canvas = document.getElementById('canvas');
   var controller = new CanvasController(canvas);
 
   canvas.addEventListener("mousemove", function(event) {
-    rectangleDelegator.delegate(event, controller);
+    interactionMap.delegate(event, controller);
   });
   canvas.addEventListener("mousedown", function(event) {
-    rectangleDelegator.delegate(event, controller);
+    interactionMap.delegate(event, controller);
   });
   canvas.addEventListener("mouseup", function(event) {
-    rectangleDelegator.delegate(event, controller);
+    interactionMap.delegate(event, controller);
   });
 });
