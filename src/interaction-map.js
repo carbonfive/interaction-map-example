@@ -55,7 +55,9 @@ var InteractionMap = function() {
       delete observers[name];
     },
 
-    modes: modes,
+    modes: function() {
+      return modes;
+    },
 
     debug: function(enabled) {
       if(enabled) {
