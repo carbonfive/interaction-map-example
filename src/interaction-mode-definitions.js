@@ -7,19 +7,17 @@ var getSignalMode = function (event, controller) {
 };
 
 var modes = [
-  {
-    name: "inactive",
+  new InteractionMode("inactive", {
     transitions: {
       mousemove: getSignalMode
     }
-  },
-  {
-    name: "signal-draw",
+  }),
+  new InteractionMode("signal-draw", {
     transitions: {
-      mousedown: function() { return "start-draw"; },
+      mousedown: function () { return "start-draw"; },
       mousemove: getSignalMode
     }
-  },
+  }),
   {
     name: "start-draw",
     handlers: {
