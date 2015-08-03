@@ -1,10 +1,8 @@
-var rectangleDelegator = new InteractionDelegator("inactive");
+var rectangleDelegator = new InteractionMap("inactive");
 rectangleDelegator.debug(true);
 
-for(var i = 0; i < modes.length; i++) {
-  var mode = modes[i];
-  rectangleDelegator.define([mode.name], mode)
-}
+rectangleDelegator.registerAll(modes);
+rectangleDelegator.enable('inactive');
 
 var setBodyClass = function(modeName) {
   document.body.className = modeName;

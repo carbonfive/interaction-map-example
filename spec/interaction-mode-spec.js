@@ -100,7 +100,7 @@ describe("InteractionMode", function () {
       });
 
       it("Throws an error", function() {
-        expect(function() { mode.handle('mousedown') }).toThrowError();
+        expect(mode.handle("mousedown")).toBeNull()
       });
     });
 

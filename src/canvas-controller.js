@@ -21,11 +21,11 @@ var CanvasController = function(canvas) {
     };
 
     var shape = topShapeContaining(moveOrigin, rectangles);
-    var offset = difference(shape.origin, moveOrigin);
+    var offset = difference(shape.getOrigin(), moveOrigin);
 
     return {
       update: function(point) {
-        var diff = difference(shape.origin, point);
+        var diff = difference(shape.getOrigin(), point);
         var newOrigin = {x: diff.x - offset.x, y: diff.y - offset.y};
         shape.moveByOrigin(newOrigin);
         shape.draw();
@@ -51,6 +51,7 @@ var CanvasController = function(canvas) {
       activeAction = null;
     },
     startMove: function(point) {
+      console.log('point', point);
       activeAction = new MoveAction(point, shapes);
     },
     move: function(point) {

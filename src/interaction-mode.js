@@ -37,12 +37,8 @@ var InteractionMode = function(name, definition) {
     return handlers[eventName];
   };
 
-  var handlerUndefinedError = function(eventName) {
-    return new Error("InteractionMode Error: The mode '" + name + "' was asked to handle the '" + eventName + "' event " +
-      "but there is no handler registered for the '" + eventName + "' event.");
-  };
-
   return {
+    name: name,
     transition: function (eventName, event, actor) {
       if(hasTransition(eventName)) {
         return getTransitionFn(eventName)(event, actor);
@@ -56,7 +52,7 @@ var InteractionMode = function(name, definition) {
         return getHandler(eventName)(event, actor);
       }
       else {
-        throw handlerUndefinedError(eventName);
+        return null;
       }
     }
   }
