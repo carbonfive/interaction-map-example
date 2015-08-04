@@ -1,10 +1,10 @@
 var MoveShapeAction = function(moveOrigin, shape) {
-  var offset = Point.compare(moveOrigin, shape.getOrigin());
+  var offset = moveOrigin.difference(shape.getOrigin());
 
   return {
     update: function(point) {
-      var diff      = Point.compare(point, shape.getOrigin());
-      var newOrigin = Point.compare(diff, offset);
+      var diff      = point.difference(shape.getOrigin());
+      var newOrigin = diff.difference(offset);
       shape.move(newOrigin);
       shape.draw();
     }
