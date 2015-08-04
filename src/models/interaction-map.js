@@ -21,10 +21,9 @@ var InteractionMap = function() {
     },
 
     registerAll: function(interactionModes) {
-      for(var i = 0; i < interactionModes.length; i++) {
-        var mode = interactionModes[i];
+      interactionModes.forEach(function(mode){
         this.register(mode);
-      }
+      }, this);
     },
 
     delegate: function(event, actor) {

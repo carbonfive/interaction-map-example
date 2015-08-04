@@ -1,5 +1,5 @@
 var getSignalMode = function (event, actor) {
-  if(actor.isOverShape({x: event.clientX, y: event.clientY})) {
+  if(actor.isOverShape(new EventPoint(event))) {
     return "signal-move";
   } else {
     return "signal-draw";
@@ -21,11 +21,11 @@ var modes = [
   new InteractionMode("start-draw", {
     transitions: {
       mousemove: "draw",
-      mouseup:   "signal-draw"
+      mouseup:   "abort-draw"
     },
     handlers: {
       mousedown: function(event, actor) {
-        actor.startDrawing({x: event.clientX, y: event.clientY});
+        actor.startDrawing(new EventPoint(event));
       }
     }
   }),
@@ -35,7 +35,17 @@ var modes = [
     },
     handlers: {
       mousemove: function(event, actor) {
-        actor.updateDrawing({x: event.clientX, y: event.clientY});
+        actor.updateDrawing(new EventPoint(event));
+      }
+    }
+  }),
+  new InteractionMode("abort-draw", {
+    transitions: {
+      mousemove: getSignalMode
+    },
+    handlers: {
+      mouseup: function(event, actor) {
+        actor.abortDrawing();
       }
     }
   }),
@@ -45,7 +55,7 @@ var modes = [
     },
     handlers: {
       mouseup: function(event, actor) {
-        actor.endDrawing({x: event.clientX, y: event.clientY});
+        actor.endDrawing(new EventPoint(event));
       }
     }
   }),
@@ -62,7 +72,7 @@ var modes = [
     },
     handlers: {
       mousedown: function(event, actor) {
-        actor.startMove({x: event.clientX, y: event.clientY});
+        actor.startMove(new EventPoint(event));
       }
     }
   }),
@@ -72,7 +82,7 @@ var modes = [
     },
     handlers: {
       mousemove: function(event, actor) {
-        actor.move({x: event.clientX, y: event.clientY});
+        actor.move(new EventPoint(event));
       }
     }
   }),
