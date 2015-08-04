@@ -1,27 +1,29 @@
 var CanvasController = function(canvas) {
   var activeAction = null;
-  var layer = new Layer();
+  var layer = new Layer(canvas, 10);
 
   return {
     startDrawing: function(point) {
-      activeAction = new DrawRectangleAction(point, canvas, layer.shapes().length + 10);
+      var rectangle = new Rectangle(point);
+      var layerObj  = layer.newLayerObject(rectangle);
+      var view      = new RectangleView(layerObj.element, layerObj.model, 'drawing');
+      activeAction  = new DrawAction(layer, rectangle, view);
     },
     updateDrawing: function(point) {
       activeAction.update(point);
-      activeAction.draw();
     },
     abortDrawing: function() {
       activeAction.abort();
     },
     endDrawing: function() {
-      activeAction.removeClass('drawing');
+      activeAction.view().disableMode('drawing');
       activeAction.draw();
-      layer.addShape(activeAction.node());
       activeAction = null;
     },
     startMove: function(point) {
-      var shape = layer.topShapeContaining(point);
-      activeAction = new MoveShapeAction(point, shape);
+      var layerObj  = layer.topObjectContaining(point);
+      var shapeView = new RectangleView(layerObj.element, layerObj.model);
+      activeAction  = new MoveShapeAction(layer, point, shapeView);
     },
     move: function(point) {
       activeAction.update(point);
@@ -30,7 +32,7 @@ var CanvasController = function(canvas) {
       activeAction = null;
     },
     isOverShape: function(point) {
-      return layer.shapesContaining(point).length > 0;
+      return layer.objectsContaining(point).length > 0;
     }
   }
 };

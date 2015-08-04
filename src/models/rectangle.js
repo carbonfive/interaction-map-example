@@ -1,4 +1,12 @@
 var Rectangle = function(vertexA, vertexC) {
+  if(typeof vertexA === 'undefined') {
+    vertexA = new Point();
+  }
+
+  if(typeof vertexC === 'undefined') {
+    vertexC = new Point();
+  }
+
   var topVertex = function() {
     return vertexA.y() <= vertexC.y() ? vertexA : vertexC;
   };
@@ -33,9 +41,12 @@ var Rectangle = function(vertexA, vertexC) {
       vertexA = A;
       vertexC = C;
     },
-    vertecies: function() {
-      var vertexB = new Point(vertexA.x() + this.width(), vertexC.y());
-      var vertexD = new Point(vertexA.x(), vertexC.y() + this.height());
+    origin: function() {
+      return vertexA;
+    },
+    vertices: function() {
+      var vertexB = new Point(vertexC.x(), vertexA.y());
+      var vertexD = new Point(vertexA.x(), vertexC.y());
       return {
         A: vertexA, B: vertexB, C: vertexC, D: vertexD
       }

@@ -1,53 +1,46 @@
-var RectangleNode = function(rectangle, parentNode, stackOrder) {
-  var offset = parentNode.getBoundingClientRect();
-  var classNames = ['shape', 'drawing'];
-  var el = document.createElement('div');
+var RectangleView = function(el, rectangle, mode) {
+  var classNames = ['shape', mode];
 
-  var id = "shape-"+performance.now().toString().replace(".",'-');
-  el.setAttribute('id', id);
-  el.style.zIndex = stackOrder;
-
-  var top = function() {
+  var top = function(offset) {
     return rectangle.top() - offset.top;
   };
 
-  var left = function() {
+  var left = function(offset) {
     return rectangle.left() - offset.left;
   };
 
+  var updateClassNames = function() {
+    el.className = classNames.join(" ");
+  };
+
+  var updatePosition = function(offset) {
+    el.style.top    = top(offset)+"px";
+    el.style.left   = left(offset)+"px";
+    el.style.width  = rectangle.width()+"px";
+    el.style.height = rectangle.height()+"px";
+  };
+
   return {
-    el: function() {
-      return el;
-    },
-    updatePosition: function() {
-      el.style.top = top()+"px";
-      el.style.left = left()+"px";
-      el.style.width = rectangle.width()+"px";
-      el.style.height = rectangle.height()+"px";
-    },
-    updateClassNames: function() {
-      el.className = classNames.join(" ");
-    },
-    removeClass: function(name) {
+    disableMode: function(name) {
       var idx = classNames.indexOf(name);
-      classNames.splice(idx, 1);
-    },
-    contains: function(point) {
-      return rectangle.contains(point);
-    },
-    getStackOrder: function() {
-      return stackOrder;
+      if(idx >= 0) {
+        classNames.splice(idx, 1);
+      }
     },
     getOrigin: function() {
-      return rectangle.vertecies().A;
+      return rectangle.vertices().A;
     },
-    move: function(coords) {
-      rectangle.vertecies().A.move(coords);
-      rectangle.vertecies().C.move(coords);
+    getOffset: function(point) {
+      var vertexA = this.getOrigin();
+      return vertexA.difference(point.x(), point.y());
     },
-    draw: function() {
-      this.updateClassNames();
-      this.updatePosition();
+    move: function(x, y) {
+      rectangle.vertices().A.move(x, y);
+      rectangle.vertices().C.move(x, y);
+    },
+    draw: function(layer) {
+      updateClassNames();
+      updatePosition(layer.box());
     }
   }
 };

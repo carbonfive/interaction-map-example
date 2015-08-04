@@ -14,7 +14,7 @@ describe("InteractionMap", function() {
       modes = [{name: 'one'}, {name: 'two'}];
       map = new InteractionMap();
       map.registerAll(modes);
-      expect(map.modes).toEqual({one: modes[0], two: modes[1]})
+      expect(map.modes()).toEqual({one: modes[0], two: modes[1]})
     });
   });
 
