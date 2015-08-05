@@ -18,6 +18,4 @@ window.addEventListener('load', function() {
       interactionMap.delegate(event, workspace.layerController());
     });
   });
-
-
 });

@@ -33,6 +33,9 @@ var Layer = function(name, el, zIndex) {
     },
     box: function() {
       return el.getBoundingClientRect();
+    },
+    name: function() {
+      return name;
     }
   }
 };
