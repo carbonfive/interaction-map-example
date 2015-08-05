@@ -8,19 +8,16 @@ interactionMap.addObserver('bodyClassName', function(modeName) {
   document.body.className = modeName;
 });
 
+var workspace = new WorkspaceController();
+
 window.addEventListener('load', function() {
   var canvas = document.getElementById('canvas');
-  var controller = new CanvasController(canvas);
 
-  canvas.addEventListener("mousemove", function(event) {
-    interactionMap.delegate(event, controller);
+  events = ["mousemove", "mousedown", "mouseup"].forEach(function(event) {
+    canvas.addEventListener(event, function(event) {
+      interactionMap.delegate(event, workspace.layerController());
+    });
   });
 
-  canvas.addEventListener("mousedown", function(event) {
-    interactionMap.delegate(event, controller);
-  });
 
-  canvas.addEventListener("mouseup", function(event) {
-    interactionMap.delegate(event, controller);
-  });
 });

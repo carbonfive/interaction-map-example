@@ -1,6 +1,5 @@
-var CanvasController = function(canvas) {
+var LayerController = function(layer) {
   var activeAction = null;
-  var layer = new Layer(canvas, 10);
 
   return {
     startDrawing: function(point) {

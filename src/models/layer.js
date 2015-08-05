@@ -1,4 +1,4 @@
-var Layer = function(el, zIndex) {
+var Layer = function(name, el, zIndex) {
   var objects = [];
 
   var createLayerObject = function(model) {
