@@ -12,12 +12,14 @@ var modes = [
       mousemove: getSignalMode
     }
   }),
+
   new InteractionMode("signal-draw", {
     transitions: {
       mousedown: "start-draw",
       mousemove: getSignalMode
     }
   }),
+
   new InteractionMode("start-draw", {
     transitions: {
       mousemove: "draw",
@@ -29,6 +31,7 @@ var modes = [
       }
     }
   }),
+
   new InteractionMode("draw", {
     transitions: {
       mouseup: "end-draw"
@@ -39,6 +42,7 @@ var modes = [
       }
     }
   }),
+
   new InteractionMode("abort-draw", {
     transitions: {
       mousemove: getSignalMode
@@ -49,6 +53,7 @@ var modes = [
       }
     }
   }),
+
   new InteractionMode("end-draw", {
     transitions: {
       mousemove: getSignalMode
@@ -59,12 +64,14 @@ var modes = [
       }
     }
   }),
+
   new InteractionMode("signal-move", {
     transitions: {
       mousedown: "start-move",
       mousemove: getSignalMode
     }
   }),
+
   new InteractionMode("start-move", {
     transitions: {
       mousemove: "move",
@@ -76,6 +83,7 @@ var modes = [
       }
     }
   }),
+
   new InteractionMode("move", {
     transitions: {
       mouseup: "end-move"
@@ -86,6 +94,7 @@ var modes = [
       }
     }
   }),
+
   new InteractionMode("end-move", {
     transitions: {
       mousedown: "start-move",

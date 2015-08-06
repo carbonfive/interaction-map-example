@@ -3,7 +3,7 @@ describe("InteractionMap", function() {
     var map, mode;
     it("adds the InteractionMode to .modes", function() {
       mode = {name: 'myMode'};
-      map = new InteractionMap();
+      map = new InteractionDelegator();
       map.register(mode);
       expect(map.modes()).toEqual({myMode: mode})
     });
@@ -12,7 +12,7 @@ describe("InteractionMap", function() {
   describe("#registerAll", function() {
     it("adds each member of the given array to .modes", function() {
       modes = [{name: 'one'}, {name: 'two'}];
-      map = new InteractionMap();
+      map = new InteractionDelegator();
       map.registerAll(modes);
       expect(map.modes()).toEqual({one: modes[0], two: modes[1]})
     });
@@ -22,7 +22,7 @@ describe("InteractionMap", function() {
     var map, modeOne, modeTwo;
     describe("when given the name of a registered InteractionMode", function() {
       beforeEach(function(){
-        map = new InteractionMap();
+        map = new InteractionDelegator();
         modeOne = {name: 'one'};
         modeTwo = {name: 'two'};
         modes = [modeOne, modeTwo];
@@ -37,7 +37,7 @@ describe("InteractionMap", function() {
 
     describe("when given the name of an unregistered mode", function() {
       beforeEach(function(){
-        map = new InteractionMap();
+        map = new InteractionDelegator();
         modeOne = {name: 'one'};
         modeTwo = {name: 'two'};
         modes = [modeOne, modeTwo];
@@ -56,7 +56,7 @@ describe("InteractionMap", function() {
     describe("when the enabled InteractionMode does NOT have a transition function defined for the given event", function() {
       var map, handlerFn, event, actor;
       beforeEach(function() {
-        map = new InteractionMap();
+        map = new InteractionDelegator();
         event = {type: 'mousedown'};
         actor = "some-interaction-actor";
         handlerFn = jasmine.createSpy();
@@ -75,7 +75,7 @@ describe("InteractionMap", function() {
       var map, handlerFn, event, actor;
 
       beforeEach(function() {
-        map = new InteractionMap();
+        map = new InteractionDelegator();
         event = {type: 'mousedown'};
         actor = "some-interaction-actor";
 

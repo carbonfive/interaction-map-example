@@ -1,4 +1,4 @@
-var InteractionMap = function() {
+var InteractionDelegator = function() {
   var observers = {};
   var modes = {};
   var enabled;
@@ -22,7 +22,7 @@ var InteractionMap = function() {
     registerAll: function(interactionModes) {
       interactionModes.forEach(function(mode){
         this.register(mode);
-      }, this);
+      },this);
     },
     delegate: function(event, actor) {
       var transitionTo = enabled.transition(event.type, event, actor);
