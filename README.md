@@ -22,15 +22,58 @@ __Interaction Actor__, and an __Interaction Delegator__. I’ll give you an over
 component and then I’ll walk through the example app implemented in this repository.
 
 ### Interaction Mode
-The __Interaction Mode__ is the fundamental unit of the Interaction Map pattern. Each __Interaction Mode__ defines a 
-state, the events that can be handled in that state, and the events that will trigger a change to another state. 
+The __Interaction Mode__ is the fundamental unit of the Interaction Map pattern. Each __Interaction Mode__ defines a state, the events that can be handled in that state, and the events that will trigger a change to another state. 
+
+Below is a basic implementation of Interaction Mode. See the [InteractonModel](https://github.com/carbonfive/interaction-map-example/blob/layers/src/models/interaction-mode.js) source for a more robust implementation.
+
+```javascript
+var InteractionMode = function(name, transitions, handlers) {
+  this.name = name;
+  
+  this.transition = function(eventName, event, actor) {
+    if (transitions && transitions[eventName]) {
+      return transitions[eventName](event, actor);
+    }
+    return this.name;
+  };
+  this.handle = function(eventName, event, actor) {
+    if (handlers && handlers[eventName]) {
+      handlers[eventName](event, actor);
+    }
+  }
+};
+
+```
 
 ### Interaction Delegator
 The __Interaction Delegator__ is responsible for keeping track of the enabled __Interaction Mode__ and delegating
 events to it.
 
+Below is a basic implementation of Interaction Delegator. See the [InteractonMap](https://github.com/carbonfive/interaction-map-example/blob/layers/src/models/interaction-map.js) source for a more robust implementation.
+
+```javascript
+var InteractionDelegator = function() {
+  var interactionModes = {};
+  var activeMode;
+
+  return {
+    register: function(interactionMode) {
+      interactionModes[interactionMode.name] = interactionMode;
+    },
+    enable: function(modeName) {
+      activeMode = interactionModes[modeName];
+    },
+    delegate: function(eventName, event, actor) {
+      var transitionTo = activeMode.transition(eventName, event, actor);
+      this.enable(transitionTo);
+      activeMode.handle(eventName, event, actor);
+    }
+  }
+};
+```
+
 ### Interaction Actor
-The __Interaction Actor__ is responsible for interactions with the larger application. The __Interaction Delegator__ must
-pass the __Interacton Actor__ to the __Transition Functions__ and __Event Handlers__, defined in __Interaction Modes__.
-While the Interaction Mode and Interaction Map implementations are generic enough to be re-used in different applications, 
-the Interaction Actor is where the application/domain logic lives.
+The __Interaction Actor__ is responsible for interactions with the larger application. The __Interaction Delegator__ must pass the __Interacton Actor__ to the __Transition Functions__ and __Event Handlers__, defined in __Interaction Modes__. While the Interaction Mode and Interaction Map implementations are generic enough to be re-used in different applications, the Interaction Actor is where the application/domain logic lives.
+
+Since Interaction Actors are specific to their application it doesn't make sense to fabricate a general implementation for illustration purposes. Instead, look at the [Layer Controller](https://github.com/carbonfive/interaction-map-example/blob/layers/src/layer-controller.js) source, which is the interaction actor for our example application.
+
