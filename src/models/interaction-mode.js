@@ -18,7 +18,6 @@ var InteractionMode = function(name, definition) {
   var hasTransition = function(eventName) {
     return !!transitions[eventName];
   };
-
   var getTransitionFn = function(eventName) {
     var val = transitions[eventName];
     if(typeof val === 'function') {
@@ -28,11 +27,9 @@ var InteractionMode = function(name, definition) {
       return function(){return val};
     }
   };
-
   var hasHandler = function(eventName) {
     return !!handlers[eventName];
   };
-
   var getHandler = function(eventName) {
     return handlers[eventName];
   };

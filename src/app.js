@@ -1,26 +1,21 @@
-var interactionMap = new InteractionMap("inactive");
+var interactionMap = new InteractionDelegator("inactive");
 interactionMap.debug(true);
 
 interactionMap.registerAll(modes);
 interactionMap.enable('inactive');
 
-var setBodyClass = function(modeName) {
+interactionMap.addObserver('bodyClassName', function(modeName) {
   document.body.className = modeName;
-};
-
-interactionMap.addObserver('bodyClassName', setBodyClass);
+});
 
 window.addEventListener('load', function() {
   var canvas = document.getElementById('canvas');
-  var controller = new CanvasController(canvas);
+  var layer = new Layer('base', canvas, 10);
+  var layerController = new LayerController(layer);
 
-  canvas.addEventListener("mousemove", function(event) {
-    interactionMap.delegate(event, controller);
-  });
-  canvas.addEventListener("mousedown", function(event) {
-    interactionMap.delegate(event, controller);
-  });
-  canvas.addEventListener("mouseup", function(event) {
-    interactionMap.delegate(event, controller);
+  events = ["mousemove", "mousedown", "mouseup"].forEach(function(event) {
+    canvas.addEventListener(event, function(event) {
+      interactionMap.delegate(event, layerController);
+    });
   });
 });
