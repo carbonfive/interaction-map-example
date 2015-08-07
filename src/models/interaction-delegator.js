@@ -9,18 +9,18 @@ var InteractionDelegator = function(interactionMap) {
     }
   };
 
-  this.addObserver = function(name, fn) {
-    observers[name] = fn;
-  };
-
-  this.delegate = function(eventName, event, actor) {
-    if(interactionMap.transition(eventName, event, actor)) {
-      notifyObservers(interactionMap.getEnabled().name);
+  return {
+    addObserver: function (name, fn) {
+      observers[name] = fn;
+    },
+    delegate: function (eventName, event, actor) {
+      if (interactionMap.transition(eventName, event, actor)) {
+        notifyObservers(interactionMap.getEnabled().name);
+      }
+      interactionMap.handle(eventName, event, actor);
+    },
+    removeObserver: function (name) {
+      delete observers[name];
     }
-    interactionMap.handle(eventName, event, actor);
-  };
-
-  this.removeObserver = function(name) {
-    delete observers[name];
-  };
+  }
 };
