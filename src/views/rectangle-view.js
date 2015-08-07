@@ -1,5 +1,5 @@
-var RectangleView = function(el, rectangle, mode) {
-  var classNames = ['shape', mode];
+var RectangleView = function(el, rectangle) {
+  var classNames = ['shape'];
 
   var top = function(offset) {
     return rectangle.top() - offset.top;
@@ -20,8 +20,17 @@ var RectangleView = function(el, rectangle, mode) {
     el.style.height = rectangle.height()+"px";
   };
 
+  var hasClass = function(name) {
+    return classNames.indexOf(name) !== -1;
+  };
+
   return {
-    disableMode: function(name) {
+    addClass: function(name) {
+      if(!hasClass(name)) {
+        classNames.push(name);
+      }
+    },
+    removeClass: function(name) {
       var idx = classNames.indexOf(name);
       if(idx >= 0) {
         classNames.splice(idx, 1);

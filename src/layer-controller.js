@@ -5,7 +5,8 @@ var LayerController = function(layer) {
     startDrawing: function(point) {
       var rectangle = new Rectangle(point);
       var layerObj  = layer.newLayerObject(rectangle);
-      var view      = new RectangleView(layerObj.element, layerObj.model, 'drawing');
+      var view      = new RectangleView(layerObj.element, layerObj.model);
+      view.addClass('drawing');
       activeAction  = new DrawAction(layer, rectangle, view);
     },
     updateDrawing: function(point) {
@@ -15,7 +16,7 @@ var LayerController = function(layer) {
       activeAction.abort();
     },
     endDrawing: function() {
-      activeAction.view().disableMode('drawing');
+      activeAction.view().removeClass('drawing');
       activeAction.draw();
       activeAction = null;
     },
