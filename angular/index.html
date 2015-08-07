@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Interaction Map - Example Implementation with Angular</title>
+    <link rel="stylesheet" type="text/css" href="../styles.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.17/angular.min.js"></script>
+    <script src="src/app.js"></script>
+
+    <script src="src/controllers/canvas-controller.js"></script>
+    <script src="src/controllers/layer-controller.js"></script>
+
+    <script src="src/directives/rectangle-view.js"></script>
+    <script src="src/directives/layer.js"></script>
+</head>
+<body ng-app="interactionMap">
+    <div id="workspace">
+        <div id="canvas" ng-controller="CanvasController">
+            <layer ng-controller="{{ctrlName}}"></layer>
+        </div>
+    </div>
+</body>
+</html>
