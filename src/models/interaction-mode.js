@@ -18,38 +18,43 @@ var InteractionMode = function(name, definition) {
   var hasTransition = function(eventName) {
     return !!transitions[eventName];
   };
-  var getTransitionFn = function(eventName) {
+
+  var getTransition = function(eventName) {
     var val = transitions[eventName];
     if(typeof val === 'function') {
       return val;
     }
     else {
-      return function(){return val};
+      return function(){ return val };
     }
   };
+
+  var callTransition = function(eventName, event, actor) {
+    return getTransition(eventName)(event, actor);
+  };
+
   var hasHandler = function(eventName) {
     return !!handlers[eventName];
   };
+
   var getHandler = function(eventName) {
     return handlers[eventName];
+  };
+
+  var callHandler = function(eventName, event, actor) {
+    return getHandler(eventName)(event, actor);
   };
 
   return {
     name: name,
     transition: function (eventName, event, actor) {
       if(hasTransition(eventName)) {
-        return getTransitionFn(eventName)(event, actor);
-      }
-      else {
-        return null;
+        return callTransition(eventName, event, actor);
       }
     },
     handle: function(eventName, event, actor) {
       if(hasHandler(eventName)) {
-        return getHandler(eventName)(event, actor);
-      }
-      else {
-        return null;
+        return callHandler(eventName, event, actor);
       }
     }
   }

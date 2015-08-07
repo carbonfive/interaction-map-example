@@ -55,9 +55,9 @@ describe("InteractionMode", function () {
         mode = new InteractionMode(modeName);
       });
 
-      it("returns null", function () {
+      it("returns a falsy value", function () {
         // transition() arguments [1]'event' and [2]'actor' omitted
-        expect(mode.transition("mousedown")).toBeNull()
+        expect(mode.transition("mousedown")).toBeFalsy()
       })
     });
   });
@@ -99,8 +99,8 @@ describe("InteractionMode", function () {
         mode = new InteractionMode(modeName);
       });
 
-      it("Throws an error", function() {
-        expect(mode.handle("mousedown")).toBeNull()
+      it("returns a falsy value", function() {
+        expect(mode.handle("mousedown")).toBeFalsy()
       });
     });
 

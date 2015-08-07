@@ -1,6 +1,6 @@
 describe("Rectangle", function() {
   describe("constructor", function() {
-    it("accepts two points for the A and C verticies", function() {
+    it("accepts two points for the A and C vertices", function() {
       var a = new Point(0,0);
       var c = new Point(20,20);
       var rectangle = new Rectangle(a,c);

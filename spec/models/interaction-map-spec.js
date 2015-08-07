@@ -1,20 +1,51 @@
 describe("InteractionMap", function() {
+  describe("constructor", function() {
+    describe("without arguments", function() {
+      it("initializes it's 'modes' property to an empty object", function() {
+        var interactionMap = new InteractionMap();
+        expect(interactionMap.getModes()).toEqual({})
+      });
+    });
+
+    describe("with an array of InteractionMap instances", function() {
+      var interactionModes;
+      beforeEach(function() {
+        interactionModes = [
+          new InteractionMode("mode-one"),
+          new InteractionMode("mode-two")
+        ]
+      });
+
+      it("adds the InteractionMap instances to it's modes", function() {
+        var interactionMap = new InteractionMap(interactionModes);
+        var registeredNames = [];
+        var modes = interactionMap.getModes();
+        for(var modeName in modes) {
+          if(modes.hasOwnProperty(modeName)) {
+            registeredNames.push(modeName);
+          }
+        }
+        expect(registeredNames).toEqual(["mode-one", "mode-two"]);
+      });
+    });
+  });
+
   describe("#register", function() {
     var map, mode;
     it("adds the InteractionMode to .modes", function() {
       mode = {name: 'myMode'};
-      map = new InteractionDelegator();
+      map = new InteractionMap();
       map.register(mode);
-      expect(map.modes()).toEqual({myMode: mode})
+      expect(map.getModes()).toEqual({myMode: mode})
     });
   });
 
   describe("#registerAll", function() {
     it("adds each member of the given array to .modes", function() {
       modes = [{name: 'one'}, {name: 'two'}];
-      map = new InteractionDelegator();
+      map = new InteractionMap();
       map.registerAll(modes);
-      expect(map.modes()).toEqual({one: modes[0], two: modes[1]})
+      expect(map.getModes()).toEqual({one: modes[0], two: modes[1]})
     });
   });
 
@@ -22,7 +53,7 @@ describe("InteractionMap", function() {
     var map, modeOne, modeTwo;
     describe("when given the name of a registered InteractionMode", function() {
       beforeEach(function(){
-        map = new InteractionDelegator();
+        map = new InteractionMap();
         modeOne = {name: 'one'};
         modeTwo = {name: 'two'};
         modes = [modeOne, modeTwo];
@@ -31,13 +62,13 @@ describe("InteractionMap", function() {
       });
 
       it("enables the named InteractionMode", function() {
-        expect(map.enabled()).toEqual(modeOne);
+        expect(map.getEnabled()).toEqual(modeOne);
       });
     });
 
     describe("when given the name of an unregistered mode", function() {
       beforeEach(function(){
-        map = new InteractionDelegator();
+        map = new InteractionMap();
         modeOne = {name: 'one'};
         modeTwo = {name: 'two'};
         modes = [modeOne, modeTwo];
@@ -52,69 +83,50 @@ describe("InteractionMap", function() {
     });
   });
 
-  describe("#delegate", function() {
-    describe("when the enabled InteractionMode does NOT have a transition function defined for the given event", function() {
-      var map, handlerFn, event, actor;
+  describe("#transition", function() {
+    var map, modeOne, modeTwo;
+    beforeEach(function() {
+      modeOne = new InteractionMode('mode one');
+      modeTwo = new InteractionMode('mode two');
+      map = new InteractionMap([modeOne, modeTwo]);
+      map.enable(modeOne.name);
+    });
+
+    it("calls transition() on the enabled InteractionMode", function() {
+      spyOn(modeOne, 'transition');
+      map.transition("eventName","event","actor");
+      expect(modeOne.transition).toHaveBeenCalledWith("eventName","event","actor");
+    });
+
+    describe("when the call to transition() on the enabled InteractionMode returns a falsy value", function() {
       beforeEach(function() {
-        map = new InteractionDelegator();
-        event = {type: 'mousedown'};
-        actor = "some-interaction-actor";
-        handlerFn = jasmine.createSpy();
-        mode = new InteractionMode('testMode', {handlers: {mousedown: handlerFn}});
-        map.register(mode);
-        map.enable(mode.name);
+        spyOn(modeOne, 'transition').and.returnValue(undefined);
       });
 
-      it("calls the event handler on the currently enabled mode", function() {
-        map.delegate(event, actor);
-        expect(handlerFn).toHaveBeenCalledWith(event, actor);
+      it("does not change the enabled mode", function() {
+        expect(map.getEnabled()).toEqual(modeOne);
+        map.transition();
+        expect(map.getEnabled()).toEqual(modeOne);
+      });
+
+      it("returns false", function() {
+        expect(map.transition()).toBe(false);
       });
     });
 
-    describe("when the enabled InteractionMode has a transition function that returns the name of another mode", function() {
-      var map, handlerFn, event, actor;
-
+    describe("when the call to transition() on the enabled InteractionMode returns a mode name", function() {
       beforeEach(function() {
-        map = new InteractionDelegator();
-        event = {type: 'mousedown'};
-        actor = "some-interaction-actor";
-
-        preTransitionHandlerFn = jasmine.createSpy();
-        preTransitionTransitionFn = jasmine.createSpy().and.returnValue('postTransitionMode');
-
-        preTransitionMode = new InteractionMode('preTransitionMode', {
-          transitions: { mousedown: preTransitionTransitionFn },
-          handlers: { mousedown: preTransitionHandlerFn }
-        });
-
-        postTransitionHandlerFn = jasmine.createSpy();
-        postTransitionTransitionFn = jasmine.createSpy();
-
-        postTransitionMode = new InteractionMode('postTransitionMode', {
-          transitions: { mousedown: postTransitionTransitionFn },
-          handlers: {mousedown: postTransitionHandlerFn }
-        });
-
-        map.registerAll([preTransitionMode, postTransitionMode]);
-        map.enable(preTransitionMode.name);
-
-        map.delegate(event, actor);
+        spyOn(modeOne, 'transition').and.returnValue(modeTwo.name);
       });
 
-      it("calls the transition handler of the first mode", function() {
-        expect(preTransitionTransitionFn).toHaveBeenCalledWith(event, actor);
+      it("enables the returned mode", function() {
+        expect(map.getEnabled()).toEqual(modeOne);
+        map.transition();
+        expect(map.getEnabled()).toEqual(modeTwo);
       });
 
-      it("calls the event handler of the second mode", function() {
-        expect(postTransitionHandlerFn).toHaveBeenCalledWith(event, actor);
-      });
-
-      it("does not call the event handler of the first mode", function() {
-        expect(preTransitionHandlerFn).not.toHaveBeenCalled();
-      });
-
-      it("does not call the transition handler of the second mode", function() {
-        expect(postTransitionTransitionFn).not.toHaveBeenCalled();
+      it("returns true", function() {
+        expect(map.transition()).toBe(true);
       });
     });
   });
