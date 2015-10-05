@@ -20,6 +20,7 @@ var LayerController = function(layer) {
       activeAction.draw();
       activeAction = null;
     },
+
     startMove: function(point) {
       var layerObj  = layer.topObjectContaining(point);
       var shapeView = new RectangleView(layerObj.element, layerObj.model);
@@ -31,8 +32,26 @@ var LayerController = function(layer) {
     endMove: function() {
       activeAction = null;
     },
+
+    startResize: function(point) {
+      var layerObj  = layer.topObjectContaining(point);
+      var shapeView = new RectangleView(layerObj.element, layerObj.model);
+      activeAction  = new ResizeShapeAction(layer, point, shapeView);
+    },
+    updateResize: function(point) {
+      activeAction.update(point);
+    },
+    endResize: function() {
+      activeAction = null;
+    },
+
     isOverShape: function(point) {
       return layer.objectsContaining(point).length > 0;
+    },
+    activeEdges: function(point) {
+      var layerObj  = layer.topObjectContaining(point);
+      var shapeView = new RectangleView(layerObj.element, layerObj.model);
+      return shapeView.getActiveEdges(point);
     }
   }
 };

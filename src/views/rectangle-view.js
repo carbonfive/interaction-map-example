@@ -24,6 +24,19 @@ var RectangleView = function(el, rectangle) {
     return classNames.indexOf(name) !== -1;
   };
 
+  var edgeTolerance = {
+    top: 0.1, right: 0.1, bottom: 0.1, left: 0.1, corner: 0.1
+  };
+
+  var getEdgeDistance = function(offsetPercent) {
+    return {
+      top: offsetPercent[1],
+      right: 1 - offsetPercent[0],
+      bottom: 1 - offsetPercent[1],
+      left: offsetPercent[0]
+    }
+  };
+
   return {
     addClass: function(name) {
       if(!hasClass(name)) {
@@ -42,6 +55,20 @@ var RectangleView = function(el, rectangle) {
     getOffset: function(point) {
       var vertexA = this.getOrigin();
       return vertexA.difference(point.x(), point.y());
+    },
+    getOffsetPercent: function(point) {
+      var offset = this.getOffset(point);
+      return [offset[0]/rectangle.width(), offset[1]/rectangle.height()]
+    },
+    getActiveEdges: function(point) {
+      var edgeDistance = getEdgeDistance(this.getOffsetPercent(point));
+      var activeEdges = {};
+      for (var key in edgeDistance) {
+        if (edgeDistance.hasOwnProperty(key)) {
+          activeEdges[key] = (edgeDistance[key] < edgeTolerance[key])
+        }
+      }
+      return activeEdges;
     },
     move: function(x, y) {
       rectangle.vertices().A.move(x, y);

@@ -1,6 +1,20 @@
+SIGNAL_MODE_GRID = [
+  ['signal-resize-nwse',       'signal-resize-vertical', 'signal-resize-nesw'],
+  ['signal-resize-horizontal', 'signal-move',            'signal-resize-horizontal'],
+  ['signal-resize-nesw',       'signal-resize-vertical', 'signal-resize-nwse']
+];
+
+var getShapeMode = function(point, actor) {
+  var activeEdges = actor.activeEdges(point);
+  var grid = new ActiveGrid(activeEdges);
+  // console.log(grid.activeCell(SIGNAL_MODE_GRID));
+  return 'signal-move';
+};
+
 var getSignalMode = function (event, actor) {
-  if(actor.isOverShape(new Point(event.clientX, event.clientY))) {
-    return "signal-move";
+  var point = new Point(event.clientX, event.clientY);
+  if(actor.isOverShape(point)) {
+    return getShapeMode(point, actor);
   } else {
     return "signal-draw";
   }

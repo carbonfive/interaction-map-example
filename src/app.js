@@ -14,8 +14,8 @@ interactionDelegator.addObserver('console', consoleLogger.logModeChange);
 
 // wire everything up on page load
 window.addEventListener('load', function() {
-  var canvas = document.getElementById('canvas');
-  var layer = new Layer('base', canvas, 10);
+  var canvas          = document.getElementById('canvas');
+  var layer           = new Layer('base', canvas, 10);
   var layerController = new LayerController(layer);
 
   events = ["mousemove", "mousedown", "mouseup"].forEach(function(event) {
