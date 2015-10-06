@@ -36,7 +36,7 @@ var LayerController = function(layer) {
     startResize: function(point) {
       var layerObj  = layer.topObjectContaining(point);
       var shapeView = new RectangleView(layerObj.element, layerObj.model);
-      activeAction  = new ResizeShapeAction(layer, point, shapeView);
+      activeAction  = new ResizeShapeAction(layer, point, layerObj.model, shapeView);
     },
     updateResize: function(point) {
       activeAction.update(point);

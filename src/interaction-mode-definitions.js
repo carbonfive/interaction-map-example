@@ -7,8 +7,7 @@ SIGNAL_MODE_GRID = [
 var getShapeMode = function(point, actor) {
   var activeEdges = actor.activeEdges(point);
   var grid = new ActiveGrid(activeEdges);
-  // console.log(grid.activeCell(SIGNAL_MODE_GRID));
-  return 'signal-move';
+  return grid.activeCell(SIGNAL_MODE_GRID);
 };
 
 var getSignalMode = function (event, actor) {
@@ -108,6 +107,62 @@ var modes = [
     handlers: {
       mouseup: function(event, actor) {
         actor.endMove(event);
+      }
+    }
+  }),
+  new InteractionMode("signal-resize-nwse", {
+    transitions: {
+      mousedown: "start-resize",
+      mousemove: getSignalMode
+    }
+  }),
+  new InteractionMode("signal-resize-nesw", {
+    transitions: {
+      mousedown: "start-resize",
+      mousemove: getSignalMode
+    }
+  }),
+  new InteractionMode("signal-resize-horizontal", {
+    transitions: {
+      mousedown: "start-resize",
+      mousemove: getSignalMode
+    }
+  }),
+  new InteractionMode("signal-resize-vertical", {
+    transitions: {
+      mousedown: "start-resize",
+      mousemove: getSignalMode
+    }
+  }),
+  new InteractionMode("start-resize", {
+    transitions: {
+      mousemove: "resize",
+      mouseup: getSignalMode
+    },
+    handlers: {
+      mousedown: function(event, actor) {
+        actor.startResize(new Point(event.clientX, event.clientY));
+      }
+    }
+  }),
+  new InteractionMode("resize", {
+    transitions: {
+      mouseup: "end-resize"
+    },
+    handlers: {
+      mousemove: function(event, actor) {
+        actor.updateResize(new Point(event.clientX, event.clientY));
+      }
+    }
+  }),
+  new InteractionMode("end-resize", {
+    transitions: {
+      mousedown: 'start-resize',
+      mousemove: getSignalMode
+    },
+    handlers: {
+      mouseup: function(event, actor) {
+        actor.endResize()
       }
     }
   })
