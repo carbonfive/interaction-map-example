@@ -54,11 +54,11 @@ var RectangleView = function(el, rectangle) {
     },
     getOffset: function(point) {
       var vertexA = this.getOrigin();
-      return vertexA.difference(point.x(), point.y());
+      return vertexA.difference(point);
     },
     getOffsetPercent: function(point) {
       var offset = this.getOffset(point);
-      return [offset[0]/rectangle.width(), offset[1]/rectangle.height()]
+      return [offset.x/rectangle.width(), offset.y/rectangle.height()]
     },
     getActiveEdges: function(point) {
       var edgeDistance = getEdgeDistance(this.getOffsetPercent(point));

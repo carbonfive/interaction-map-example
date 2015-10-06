@@ -15,9 +15,9 @@ var ResizeShapeAction = function(layer, lastPosition, shape, view) {
   ];
 
   var getChange = function(position, moveCoords) {
-    var diff  = lastPosition.difference(position.x(), position.y()),
-        x     = moveCoords.x ? diff[0] : 0,
-        y     = moveCoords.y ? diff[1] : 0;
+    var diff  = lastPosition.difference(position),
+        x     = moveCoords.x ? diff.x : 0,
+        y     = moveCoords.y ? diff.y : 0;
     return [x,y];
   };
 

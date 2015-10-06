@@ -37,7 +37,24 @@ body {
 }
 
 .move #canvas,
-.start-move #canvas {
+.start-move #canvas,
+.resize #canvas {
   cursor: -webkit-grabbing;
   cursor: grabbing;
+}
+
+.signal-resize-nesw #canvas {
+  cursor: nesw-resize;
+}
+
+.signal-resize-nwse #canvas {
+  cursor: nwse-resize;
+}
+
+.signal-resize-vertical #canvas {
+  cursor: ns-resize;
+}
+
+.signal-resize-horizontal #canvas {
+  cursor: ew-resize;
 }

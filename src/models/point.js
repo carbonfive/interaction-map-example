@@ -5,8 +5,8 @@ var Point = function(x, y) {
     coords: function() {
       return [x, y];
     },
-    difference: function(xO, yO) {
-      return [xO - x, yO - y];
+    difference: function(point) {
+      return {x: point.x() - x, y: point.y() - y};
     },
     move: function(xO, yO) {
       x += xO;

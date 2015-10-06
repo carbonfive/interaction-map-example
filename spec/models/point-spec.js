@@ -9,9 +9,10 @@ describe('point', function() {
   describe('difference', function() {
     it("returns a two item array containing the x and y difference", function() {
       var pointA = new Point(20,20);
-      var diff = pointA.difference(15,25);
-      expect(diff[0]).toEqual(-5);
-      expect(diff[1]).toEqual(5);
+      var pointB = new Point(15,25);
+      var diff = pointA.difference(pointB);
+      expect(diff.x).toEqual(-5);
+      expect(diff.y).toEqual(5);
     });
   });
   describe('move', function() {
