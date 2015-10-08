@@ -3,9 +3,9 @@ var LayerController = function(layer) {
 
   return {
     startDrawing: function(point) {
-      var rectangle = new Rectangle(point);
-      var layerObj  = layer.newLayerObject(rectangle);
-      var view      = new RectangleView(layerObj.element, layerObj.model);
+      var rectangle   = new Rectangle(point);
+      var layerShape  = layer.addShape(rectangle);
+      var view        = new RectangleView(layerShape.element, layerShape.model);
       view.addClass('drawing');
       activeAction  = new DrawAction(layer, rectangle, view);
     },

@@ -1,7 +1,7 @@
 var Layer = function(name, el, zIndex) {
   var objects = [];
 
-  var createLayerObject = function(model) {
+  var createShape = function(model) {
     var element = document.createElement('div');
     var id = "obj-"+performance.now().toString().replace(".",'-');
     element.setAttribute('id', id);
@@ -11,7 +11,7 @@ var Layer = function(name, el, zIndex) {
     return obj;
   };
 
-  var appendLayerObject = function(obj) {
+  var appendShape = function(obj) {
     el.appendChild(obj.element);
   };
 
@@ -26,9 +26,9 @@ var Layer = function(name, el, zIndex) {
         return b.element.style.zIndex - a.element.style.zIndex;
       })[0];
     },
-    newLayerObject: function(model) {
-      var obj = createLayerObject(model);
-      appendLayerObject(obj);
+    addShape: function(model) {
+      var obj = createShape(model);
+      appendShape(obj);
       return obj;
     },
     box: function() {

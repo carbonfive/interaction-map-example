@@ -1,23 +1,23 @@
-var RectangleView = function(el, rectangle) {
+var RectangleView = function(node, model) {
   var classNames = ['shape'];
 
   var top = function(offset) {
-    return rectangle.top() - offset.top;
+    return model.top() - offset.top;
   };
 
   var left = function(offset) {
-    return rectangle.left() - offset.left;
+    return model.left() - offset.left;
   };
 
   var updateClassNames = function() {
-    el.className = classNames.join(" ");
+    node.className = classNames.join(" ");
   };
 
   var updatePosition = function(offset) {
-    el.style.top    = top(offset)+"px";
-    el.style.left   = left(offset)+"px";
-    el.style.width  = rectangle.width()+"px";
-    el.style.height = rectangle.height()+"px";
+    node.style.top    = top(offset)+"px";
+    node.style.left   = left(offset)+"px";
+    node.style.width  = model.width()+"px";
+    node.style.height = model.height()+"px";
   };
 
   var hasClass = function(name) {
@@ -50,7 +50,7 @@ var RectangleView = function(el, rectangle) {
       }
     },
     getOrigin: function() {
-      return rectangle.vertices().A;
+      return model.vertices().A;
     },
     getOffset: function(point) {
       var vertexA = this.getOrigin();
@@ -58,7 +58,7 @@ var RectangleView = function(el, rectangle) {
     },
     getOffsetPercent: function(point) {
       var offset = this.getOffset(point);
-      return [offset.x/rectangle.width(), offset.y/rectangle.height()]
+      return [offset.x/model.width(), offset.y/model.height()]
     },
     getActiveEdges: function(point) {
       var edgeDistance = getEdgeDistance(this.getOffsetPercent(point));
@@ -71,8 +71,8 @@ var RectangleView = function(el, rectangle) {
       return activeEdges;
     },
     move: function(x, y) {
-      rectangle.vertices().A.move(x, y);
-      rectangle.vertices().C.move(x, y);
+      model.vertices().A.move(x, y);
+      model.vertices().C.move(x, y);
     },
     draw: function(layer) {
       updateClassNames();
