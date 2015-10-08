@@ -25,7 +25,7 @@ var RectangleView = function(el, rectangle) {
   };
 
   var edgeTolerance = {
-    top: 0.1, right: 0.1, bottom: 0.1, left: 0.1, corner: 0.1
+    top: 0.05, right: 0.05, bottom: 0.05, left: 0.05
   };
 
   var getEdgeDistance = function(offsetPercent) {

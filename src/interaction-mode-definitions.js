@@ -4,16 +4,16 @@ SIGNAL_MODE_GRID = [
   ['signal-resize-nesw',       'signal-resize-vertical', 'signal-resize-nwse']
 ];
 
-var getShapeMode = function(point, actor) {
-  var activeEdges = actor.activeEdges(point);
+var getShapeMode = function(point, controller) {
+  var activeEdges = controller.activeEdges(point);
   var grid = new ActiveGrid(activeEdges);
   return grid.activeCell(SIGNAL_MODE_GRID);
 };
 
-var getSignalMode = function (event, actor) {
+var getSignalMode = function (event, controller) {
   var point = new Point(event.clientX, event.clientY);
-  if(actor.isOverShape(point)) {
-    return getShapeMode(point, actor);
+  if(controller.isOverShape(point)) {
+    return getShapeMode(point, controller);
   } else {
     return "signal-draw";
   }
@@ -37,8 +37,8 @@ var modes = [
       mouseup:   "abort-draw"
     },
     handlers: {
-      mousedown: function(event, actor) {
-        actor.startDrawing(new Point(event.clientX, event.clientY));
+      mousedown: function(event, controller) {
+        controller.startDrawing(new Point(event.clientX, event.clientY));
       }
     }
   }),
@@ -47,8 +47,8 @@ var modes = [
       mouseup: "end-draw"
     },
     handlers: {
-      mousemove: function(event, actor) {
-        actor.updateDrawing(new Point(event.clientX, event.clientY));
+      mousemove: function(event, controller) {
+        controller.updateDrawing(new Point(event.clientX, event.clientY));
       }
     }
   }),
@@ -57,8 +57,8 @@ var modes = [
       mousemove: getSignalMode
     },
     handlers: {
-      mouseup: function(event, actor) {
-        actor.abortDrawing();
+      mouseup: function(event, controller) {
+        controller.abortDrawing();
       }
     }
   }),
@@ -67,8 +67,8 @@ var modes = [
       mousemove: getSignalMode
     },
     handlers: {
-      mouseup: function(event, actor) {
-        actor.endDrawing(new Point(event.clientX, event.clientY));
+      mouseup: function(event, controller) {
+        controller.endDrawing(new Point(event.clientX, event.clientY));
       }
     }
   }),
@@ -84,8 +84,8 @@ var modes = [
       mouseup:   "signal-move"
     },
     handlers: {
-      mousedown: function(event, actor) {
-        actor.startMove(new Point(event.clientX, event.clientY));
+      mousedown: function(event, controller) {
+        controller.startMove(new Point(event.clientX, event.clientY));
       }
     }
   }),
@@ -94,8 +94,8 @@ var modes = [
       mouseup: "end-move"
     },
     handlers: {
-      mousemove: function(event, actor) {
-        actor.move(new Point(event.clientX, event.clientY));
+      mousemove: function(event, controller) {
+        controller.move(new Point(event.clientX, event.clientY));
       }
     }
   }),
@@ -105,8 +105,8 @@ var modes = [
       mousemove: getSignalMode
     },
     handlers: {
-      mouseup: function(event, actor) {
-        actor.endMove(event);
+      mouseup: function(event, controller) {
+        controller.endMove(event);
       }
     }
   }),
@@ -140,8 +140,8 @@ var modes = [
       mouseup: getSignalMode
     },
     handlers: {
-      mousedown: function(event, actor) {
-        actor.startResize(new Point(event.clientX, event.clientY));
+      mousedown: function(event, controller) {
+        controller.startResize(new Point(event.clientX, event.clientY));
       }
     }
   }),
@@ -150,8 +150,8 @@ var modes = [
       mouseup: "end-resize"
     },
     handlers: {
-      mousemove: function(event, actor) {
-        actor.updateResize(new Point(event.clientX, event.clientY));
+      mousemove: function(event, controller) {
+        controller.updateResize(new Point(event.clientX, event.clientY));
       }
     }
   }),
@@ -161,8 +161,8 @@ var modes = [
       mousemove: getSignalMode
     },
     handlers: {
-      mouseup: function(event, actor) {
-        actor.endResize()
+      mouseup: function(event, controller) {
+        controller.endResize()
       }
     }
   })

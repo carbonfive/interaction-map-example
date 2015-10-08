@@ -18,7 +18,7 @@ members of the team.
 
 ## The Pattern
 An Interaction Map consists of three components: A collection of __Interaction Modes__, at least one 
-__Interaction Actor__, and an __Interaction Delegator__. I’ll give you an overview of the responsibility of each 
+__Interaction Controller__, and an __Interaction Delegator__. I’ll give you an overview of the responsibility of each 
 component and then I’ll walk through the example app implemented in this repository.
 
 ### Interaction Mode
@@ -28,10 +28,10 @@ The __Interaction Mode__ is the fundamental unit of the Interaction Map pattern.
 The __Interaction Delegator__ is responsible for keeping track of the enabled __Interaction Mode__ and delegating
 events to it.
 
-### Interaction Actor
-The __Interaction Actor__ is responsible for interactions with the larger application. The __Interaction Delegator__ must pass the __Interacton Actor__ to the __Transition Functions__ and __Event Handlers__, defined in __Interaction Modes__. While the Interaction Mode and Interaction Map implementations are generic enough to be re-used in different applications, the Interaction Actor is where the application/domain logic lives.
+### Interaction Controller
+The __Interaction Controller__ is responsible for interactions with the larger application. The __Interaction Delegator__ must pass the __Interacton Controller__ to the __Transition Functions__ and __Event Handlers__, defined in __Interaction Modes__. While the Interaction Mode and Interaction Map implementations are generic enough to be re-used in different applications, the Interaction Controller is where the application/domain logic lives.
 
-Since Interaction Actors are specific to their application it doesn't make sense to fabricate a general implementation for illustration purposes. Instead, look at the [Layer Controller](https://github.com/carbonfive/interaction-map-example/blob/layers/src/layer-controller.js) source, which is the interaction actor for our example application.
+Since Interaction Controllers are specific to their application it doesn't make sense to fabricate a general implementation for illustration purposes. Instead, look at the [Layer Controller](https://github.com/carbonfive/interaction-map-example/blob/layers/src/layer-controller.js) source, which is the interaction controller for our example application.
 
 ## The Flow
 The pattern works like this:

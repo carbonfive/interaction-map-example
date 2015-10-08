@@ -29,8 +29,8 @@ var InteractionMode = function(name, definition) {
     }
   };
 
-  var callTransition = function(eventName, event, actor) {
-    return getTransition(eventName)(event, actor);
+  var callTransition = function(eventName, event, controller) {
+    return getTransition(eventName)(event, controller);
   };
 
   var hasHandler = function(eventName) {
@@ -41,20 +41,20 @@ var InteractionMode = function(name, definition) {
     return handlers[eventName];
   };
 
-  var callHandler = function(eventName, event, actor) {
-    return getHandler(eventName)(event, actor);
+  var callHandler = function(eventName, event, controller) {
+    return getHandler(eventName)(event, controller);
   };
 
   return {
     name: name,
-    transition: function (eventName, event, actor) {
+    transition: function (eventName, event, controller) {
       if(hasTransition(eventName)) {
-        return callTransition(eventName, event, actor);
+        return callTransition(eventName, event, controller);
       }
     },
-    handle: function(eventName, event, actor) {
+    handle: function(eventName, event, controller) {
       if(hasHandler(eventName)) {
-        return callHandler(eventName, event, actor);
+        return callHandler(eventName, event, controller);
       }
     }
   }
