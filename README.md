@@ -31,7 +31,7 @@ events to it.
 ### Interaction Controller
 The __Interaction Controller__ is responsible for interactions with the larger application. The __Interaction Delegator__ must pass the __Interacton Controller__ to the __Transition Functions__ and __Event Handlers__, defined in __Interaction Modes__. While the Interaction Mode and Interaction Map implementations are generic enough to be re-used in different applications, the Interaction Controller is where the application/domain logic lives.
 
-Since Interaction Controllers are specific to their application it doesn't make sense to fabricate a general implementation for illustration purposes. Instead, look at the [Layer Controller](https://github.com/carbonfive/interaction-map-example/blob/layers/src/layer-controller.js) source, which is the interaction controller for our example application.
+Since Interaction Controllers are specific to their application it doesn't make sense to fabricate a general implementation for illustration purposes. Instead, look at the [Layer Controller](https://github.com/carbonfive/interaction-map-example/blob/master/src/layer-controller.js) source, which is the interaction controller for our example application.
 
 ## The Flow
 The pattern works like this:
