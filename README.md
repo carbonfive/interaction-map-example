@@ -22,7 +22,7 @@ __Interaction Controller__, and an __Interaction Delegator__. I’ll give you an
 component and then I’ll walk through the example app implemented in this repository.
 
 ### Interaction Mode
-The __Interaction Mode__ is the fundamental unit of the Interaction Map pattern. Each __Interaction Mode__ defines a state, the events that can be handled in that state, and the events that will trigger a change to another state. 
+The __Interaction Mode__ is the fundamental unit of the Interaction Map pattern. Each __Interaction Mode__ defines a mode name, the events that can be handled in that mode, and the events that will trigger a change to another mode. 
 
 ### Interaction Delegator
 The __Interaction Delegator__ is responsible for keeping track of the enabled __Interaction Mode__ and delegating
