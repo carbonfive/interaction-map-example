@@ -75,7 +75,8 @@ var modes = [
   new InteractionMode("signal-move", {
     transitions: {
       mousedown: "start-move",
-      mousemove: getSignalMode
+      mousemove: getSignalMode,
+      keydown: "signal-expand"
     }
   }),
   new InteractionMode("start-move", {
@@ -163,6 +164,42 @@ var modes = [
     handlers: {
       mouseup: function(event, controller) {
         controller.endResize()
+      }
+    }
+  }),
+  new InteractionMode("signal-expand", {
+    transitions: {
+      keyup: 'signal-move',
+      mousedown: 'start-expand'
+    }
+  }),
+  new InteractionMode("start-expand", {
+    transitions: {
+      mousemove: 'update-expand'
+    },
+    handlers: {
+      mousedown: function(event, controller) {
+        controller.startExpand(new Point(event.clientX, event.clientY))
+      }
+    }
+  }),
+  new InteractionMode("update-expand", {
+    transitions: {
+      mouseup: 'end-expand'
+    },
+    handlers: {
+      mousemove: function(event, controller) {
+        controller.updateExpand(new Point(event.clientX, event.clientY))
+      }
+    }
+  }),
+  new InteractionMode("end-expand", {
+    transitions: {
+      mousemove: getSignalMode
+    },
+    handlers: {
+      mouseup: function(event, controller) {
+        controller.endExpand()
       }
     }
   })

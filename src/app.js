@@ -23,4 +23,10 @@ window.addEventListener('load', function() {
       interactionDelegator.delegate(event.type, event, layerController);
     });
   });
+
+  events = ["keydown", "keyup"].forEach(function(event) {
+    document.body.addEventListener(event, function(event) {
+      interactionDelegator.delegate(event.type, event, layerController);
+    });
+  });
 });

@@ -23,6 +23,13 @@ body {
   border: dashed cornflowerblue 1px;
 }
 
+.signal-expand #canvas,
+.start-expand #canvas,
+.update-expand #canvas,
+.end-expand #canvas {
+  cursor: all-scroll;
+}
+
 .signal-draw #canvas,
 .start-draw #canvas,
 .draw #canvas,

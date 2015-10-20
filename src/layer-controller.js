@@ -43,6 +43,18 @@ var LayerController = function(layer) {
       activeAction = null;
     },
 
+    startExpand: function(point) {
+      var layerObj  = layer.topObjectContaining(point);
+      var shapeView = new RectangleView(layerObj.element, layerObj.model);
+      activeAction  = new ExpandShapeAction(layer, point, shapeView);
+    },
+    updateExpand: function(point) {
+      activeAction.update(point);
+    },
+    endExpand: function() {
+      activeAction = null;
+    },
+
     isOverShape: function(point) {
       return layer.objectsContaining(point).length > 0;
     },
