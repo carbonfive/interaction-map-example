@@ -3,11 +3,10 @@ var LayerController = function(layer) {
 
   return {
     startDrawing: function(point) {
-      var rectangle   = new Rectangle(point);
-      var layerShape  = layer.addShape(rectangle);
-      var view        = new RectangleView(layerShape.element, layerShape.model);
-      view.addClass('drawing');
-      activeAction  = new DrawAction(layer, rectangle, view);
+      var rectangle  = new Rectangle(point);
+      var layerShape = layer.addShape(rectangle);
+      var view       = new RectangleView(layerShape.element, layerShape.model);
+      activeAction   = new DrawAction(layer, rectangle, view);
     },
     updateDrawing: function(point) {
       activeAction.update(point);
@@ -16,8 +15,7 @@ var LayerController = function(layer) {
       activeAction.abort();
     },
     endDrawing: function() {
-      activeAction.view().removeClass('drawing');
-      activeAction.draw();
+      activeAction.complete();
       activeAction = null;
     },
 
@@ -36,7 +34,7 @@ var LayerController = function(layer) {
     startResize: function(point) {
       var layerObj  = layer.topObjectContaining(point);
       var shapeView = new RectangleView(layerObj.element, layerObj.model);
-      activeAction  = new ResizeShapeAction(layer, point, layerObj.model, shapeView);
+      activeAction  = new ResizeShapeAction(layer, point, shapeView);
     },
     updateResize: function(point) {
       activeAction.update(point);

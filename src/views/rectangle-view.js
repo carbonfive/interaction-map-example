@@ -77,6 +77,7 @@ var RectangleView = function(node, model) {
     draw: function(layer) {
       updateClassNames();
       updatePosition(layer.box());
-    }
+    },
+    shape: model
   }
 };

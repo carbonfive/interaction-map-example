@@ -1,5 +1,5 @@
-var ResizeShapeAction = function(layer, lastPosition, shape, view) {
-  var vertices    = shape.vertices(),
+var ResizeShapeAction = function(layer, lastPosition, view) {
+  var vertices    = view.shape.vertices(),
       activeGrid  = new ActiveGrid(view.getActiveEdges(lastPosition));
 
   A_VERTEX_GRID = [
